@@ -23,9 +23,20 @@ namespace Share.Repositories
             return country;
         }
 
+        public Country UpdateCountry(Country country)
+        {
+            _dbContext.Countries.Update(country);
+            _dbContext.SaveChanges();
+            return country;
+        }
         public IQueryable<Country> GetCountries(Expression<Func<Country, bool>> predicate)
         {
             return _dbContext.Countries.Where(predicate);
+        }
+
+        public IQueryable<Country> GetAllCountries()
+        {
+            return _dbContext.Countries;
         }
     }
 }

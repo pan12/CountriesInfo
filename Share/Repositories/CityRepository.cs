@@ -10,7 +10,7 @@ namespace Share.Repositories
     public class CityRepository : ICitiyRepository
     {
         private Context _dbContext;
-        public CityRepository (Context context)
+        public CityRepository(Context context)
         {
             _dbContext = context;
         }

@@ -9,8 +9,8 @@ using Share;
 namespace Share.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20200802175631_Init")]
-    partial class Init
+    [Migration("20200803183034_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -88,7 +88,7 @@ namespace Share.Migrations
 
             modelBuilder.Entity("Share.Models.Country", b =>
                 {
-                    b.HasOne("Share.Models.City", "City")
+                    b.HasOne("Share.Models.City", "Capital")
                         .WithOne("Country")
                         .HasForeignKey("Share.Models.Country", "CapitalId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -86,7 +86,7 @@ namespace Share.Migrations
 
             modelBuilder.Entity("Share.Models.Country", b =>
                 {
-                    b.HasOne("Share.Models.City", "City")
+                    b.HasOne("Share.Models.City", "Capital")
                         .WithOne("Country")
                         .HasForeignKey("Share.Models.Country", "CapitalId")
                         .OnDelete(DeleteBehavior.Cascade)

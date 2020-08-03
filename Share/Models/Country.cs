@@ -16,7 +16,7 @@ namespace Share.Models
 
         public int CapitalId { get; set; }
         [ForeignKey("CapitalId")]
-        public City City { get; set; }
+        public City Capital { get; set; }
 
         public int RegionId { get; set; }
         [ForeignKey("RegionId")]

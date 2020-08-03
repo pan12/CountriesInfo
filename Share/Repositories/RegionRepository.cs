@@ -10,7 +10,7 @@ namespace Share.Repositories
     public class RegionRepository : IRegionRepository
     {
         private Context _dbContext;
-        public RegionRepository (Context context)
+        public RegionRepository(Context context)
         {
             _dbContext = context;
         }
