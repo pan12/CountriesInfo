@@ -10,7 +10,7 @@ namespace Share.Repositories
 {
     public class CountryRepository : ICountryRepository
     {
-        private Context _dbContext;
+        private readonly Context _dbContext;
         public CountryRepository(Context context)
         {
             _dbContext = context;

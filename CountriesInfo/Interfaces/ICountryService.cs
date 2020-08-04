@@ -8,7 +8,6 @@ namespace CountriesInfo.Interfaces
 {
     public interface ICountryService
     {
-        public Country GetCountryFromAPI();
         public Country SaveCountry(Country country);
         public IEnumerable<Country> GetAllCountries();
     }

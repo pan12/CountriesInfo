@@ -10,9 +10,9 @@ namespace CountriesInfo.Services
 {
     public class CountryService : ICountryService
     {
-        ICountryRepository _countryRepository;
-        ICitiyRepository _cityRepository;
-        IRegionRepository _regionRepository;
+        readonly ICountryRepository _countryRepository;
+        readonly ICitiyRepository _cityRepository;
+        readonly IRegionRepository _regionRepository;
 
         public CountryService(ICountryRepository countryRepository, 
             ICitiyRepository citiyRepository, IRegionRepository regionRepository)
@@ -50,11 +50,6 @@ namespace CountriesInfo.Services
         public IEnumerable<Country> GetAllCountries()
         {
             return _countryRepository.GetAllCountries().AsEnumerable();
-        }
-
-        public Country GetCountryFromAPI()
-        {
-            throw new NotImplementedException();
         }
 
         private City FindCityInDB(string name)
