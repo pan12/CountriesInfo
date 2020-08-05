@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Найти страну</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div><h2>Сохранённые страны</h2></div>
+    <div>@Html.ActionLink("Найти страну", "Find", "Country")</div>
+    <table class="table table-condensed table-striped  col-md-6">
+        <thead><tr><th>Название</th><th>Код страны</th><th>Столица</th><th>Площадь</th><th>Население</th><th>Регион</th><th></th></tr></thead>
+        <tbody>
+            @if (ViewBag.Countries != null)
+            {
+                @foreach (Share.Models.CountryDTO country in ViewBag.Countries)
+                {
+                    <tr>
+                        <td>@country.Name</td>
+                        <td>@country.Code</td>
+                        <td>@country.Capital</td>
+                        <td>@country.Area</td>
+                        <td>@country.Population</td>
+                        <td>@country.Region</td>
+                    </tr>
+                }
+
+            }
+        </tbody>
+    </table>
+</body>
+</html>

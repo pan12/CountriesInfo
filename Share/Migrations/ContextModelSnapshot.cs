@@ -63,8 +63,7 @@ namespace Share.Migrations
                     b.HasIndex("CapitalId")
                         .IsUnique();
 
-                    b.HasIndex("RegionId")
-                        .IsUnique();
+                    b.HasIndex("RegionId");
 
                     b.ToTable("Countries");
                 });
@@ -93,8 +92,8 @@ namespace Share.Migrations
                         .IsRequired();
 
                     b.HasOne("Share.Models.Region", "Region")
-                        .WithOne("Country")
-                        .HasForeignKey("Share.Models.Country", "RegionId")
+                        .WithMany("Countries")
+                        .HasForeignKey("RegionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

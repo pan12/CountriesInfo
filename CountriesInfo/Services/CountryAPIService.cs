@@ -17,11 +17,11 @@ namespace CountriesInfo.Services
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<IEnumerable<Country>> GetCountriesFromAPIAsync(string name)
+        public async Task<IEnumerable<CountryDTO>> GetCountriesFromAPIAsync(string name)
         {
             string uri = $"https://restcountries.eu/rest/v2/name/{name}";
 
-            IEnumerable<Country> countries = new List<Country>();
+            IEnumerable<CountryDTO> countries = new List<CountryDTO>();
             try
             {
                 using var client = _httpClientFactory.CreateClient();
@@ -35,17 +35,13 @@ namespace CountriesInfo.Services
                 {
                     var str = String.Concat("{\"name\"", s);
                     str = str.Trim(',');
-                    Country country = new Country
-                    {
-                        Capital = new City(),
-                        Region = new Region()
-                    };
+                    CountryDTO country = new CountryDTO();
 
                     JObject jObject = JObject.Parse(str);
                     country.Name = (string)jObject["name"];
-                    country.Capital.Name = (string)jObject["capital"];
+                    country.Capital = (string)jObject["capital"];
                     country.Population = (int)jObject["population"];
-                    country.Region.Name = (string)jObject["region"];
+                    country.Region = (string)jObject["region"];
                     country.Area = (double)jObject["area"];
                     country.Code = (string)jObject["numericCode"];
 

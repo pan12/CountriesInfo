@@ -21,5 +21,20 @@ namespace Share.Models
         public int RegionId { get; set; }
         [ForeignKey("RegionId")]
         public Region Region { get; set; }
+
+
+
+        public CountryDTO Map()
+        {
+            return new CountryDTO
+            {
+                Name = this.Name,
+                Code = this.Code,
+                Area = this.Area,
+                Population = this.Population,
+                Capital = this.Capital.Name,
+                Region = this.Region.Name
+            };
+        }
     }
 }

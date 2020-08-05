@@ -9,8 +9,8 @@ using Share;
 namespace Share.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20200803183034_init")]
-    partial class init
+    [Migration("20200805073531_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -65,8 +65,7 @@ namespace Share.Migrations
                     b.HasIndex("CapitalId")
                         .IsUnique();
 
-                    b.HasIndex("RegionId")
-                        .IsUnique();
+                    b.HasIndex("RegionId");
 
                     b.ToTable("Countries");
                 });
@@ -95,8 +94,8 @@ namespace Share.Migrations
                         .IsRequired();
 
                     b.HasOne("Share.Models.Region", "Region")
-                        .WithOne("Country")
-                        .HasForeignKey("Share.Models.Country", "RegionId")
+                        .WithMany("Countries")
+                        .HasForeignKey("RegionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

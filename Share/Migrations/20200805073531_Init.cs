@@ -2,7 +2,7 @@
 
 namespace Share.Migrations
 {
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -71,8 +71,7 @@ namespace Share.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Countries_RegionId",
                 table: "Countries",
-                column: "RegionId",
-                unique: true);
+                column: "RegionId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

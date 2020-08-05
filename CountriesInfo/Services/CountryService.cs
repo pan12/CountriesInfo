@@ -23,33 +23,53 @@ namespace CountriesInfo.Services
         }
 
 
-        public Country SaveCountry(Country country)
+        public Country SaveCountry(CountryDTO countryDTO)
         {
+            Country country = new Country
+            {
+                Name = countryDTO.Name,
+                Code = countryDTO.Code,
+                Area = countryDTO.Area,
+                Population = countryDTO.Population,
+
+                Capital = new City { Name = countryDTO.Capital },
+                Region = new Region { Name = countryDTO.Region }
+            };
             var capital = FindCityInDB(country.Capital.Name);
             if (capital == null)
                 capital = _cityRepository.AddCity(country.Capital);
             country.CapitalId = capital.Id;
+            country.Capital = capital;
 
             var region = FindRegionInDB(country.Region.Name);
             if (region == null)
                 region = _regionRepository.AddRegion(country.Region);
             country.RegionId = region.Id;
+            country.Region = region;
 
-            country = FindCountryInDB(country.Code);
-            if(country == null)
+            var countryInDB = FindCountryInDB(country.Code);
+            if(countryInDB == null)
             {
                 return _countryRepository.AddCountry(country);
             }
             else
             {
-                return _countryRepository.UpdateCountry(country);
+                return _countryRepository.UpdateCountry(countryInDB);
             }
 
         }
 
-        public IEnumerable<Country> GetAllCountries()
+        public IEnumerable<CountryDTO> GetAllCountries()
         {
-            return _countryRepository.GetAllCountries().AsEnumerable();
+            var countries = _countryRepository.GetAllCountries().ToList();
+            IEnumerable<CountryDTO> countriesDTO = new List<CountryDTO>();
+            foreach (Country country in countries)
+            {
+                country.Capital = _cityRepository.GetCityById(country.CapitalId);
+                country.Region = _regionRepository.GetRegionById(country.RegionId);
+                countriesDTO = countriesDTO.Append(country.Map());
+            }
+            return countriesDTO;
         }
 
         private City FindCityInDB(string name)

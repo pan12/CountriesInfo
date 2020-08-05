@@ -40,6 +40,7 @@ namespace CountriesInfo
 
             services.AddControllers();
             services.AddHttpClient();
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,12 +57,7 @@ namespace CountriesInfo
             {
                 endpoints.MapControllerRoute(
                             name: "default",
-                            pattern: "{controller=Country}/{action=Index}");
-                endpoints.MapControllers();
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                            pattern: "{controller=Country}/{action=Find}");
             });
         }
     }

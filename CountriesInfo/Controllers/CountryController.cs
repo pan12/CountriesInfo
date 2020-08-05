@@ -13,23 +13,28 @@ namespace CountriesInfo.Controllers
     {
         readonly CountryAPIService _countryAPIService;
         readonly ICountryService _countryService;
-        public CountryController(CountryAPIService countryAPIService)
+        public CountryController(CountryAPIService countryAPIService, ICountryService countryService)
         {
             _countryAPIService = countryAPIService;
+            _countryService = countryService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> FindCountry(string name)
+        public async Task<IActionResult> Find(string name)
         {
             ViewBag.Countries = await _countryAPIService.GetCountriesFromAPIAsync(name);
             return View();
         }
 
-        [HttpPost]
-        public IActionResult SaveCountry(Country country)
+        public IActionResult Saved()
+        {
+            ViewBag.Countries = _countryService.GetAllCountries();
+            return View();
+        }
+
+        public IActionResult SaveCountry(CountryDTO country)
         {
             _countryService.SaveCountry(country);
-            return View();
+            return Redirect("find");
         }
     }
 }

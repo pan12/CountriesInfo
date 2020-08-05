@@ -8,7 +8,7 @@ namespace CountriesInfo.Interfaces
 {
     public interface ICountryService
     {
-        public Country SaveCountry(Country country);
-        public IEnumerable<Country> GetAllCountries();
+        public Country SaveCountry(CountryDTO country);
+        public IEnumerable<CountryDTO> GetAllCountries();
     }
 }
