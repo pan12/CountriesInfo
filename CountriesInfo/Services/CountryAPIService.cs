@@ -21,39 +21,40 @@ namespace CountriesInfo.Services
         {
             string uri = $"https://restcountries.eu/rest/v2/name/{name}";
 
-            IEnumerable<CountryDTO> countries = new List<CountryDTO>();
             try
             {
                 using var client = _httpClientFactory.CreateClient();
                 var response = await client.GetAsync(uri);
                 var content = await response.Content.ReadAsStringAsync();
-
-                content = content.Trim('[', ']');
-                string[] countriesJSON = content.Split("{\"name\"", StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (string s in countriesJSON)
-                {
-                    var str = String.Concat("{\"name\"", s);
-                    str = str.Trim(',');
-                    CountryDTO country = new CountryDTO();
-
-                    JObject jObject = JObject.Parse(str);
-                    country.Name = (string)jObject["name"];
-                    country.Capital = (string)jObject["capital"];
-                    country.Population = (int)jObject["population"];
-                    country.Region = (string)jObject["region"];
-                    country.Area = (double)jObject["area"];
-                    country.Code = (string)jObject["numericCode"];
-
-                    countries = countries.Append(country);
-                }
+                return GetCountriesFromJSON(content);
             }
             catch (Exception)
             {
                 return null;
             }
+        }
+
+
+        public IEnumerable<CountryDTO> GetCountriesFromJSON(string content)
+        {
+            IEnumerable<CountryDTO> countries = new List<CountryDTO>();
+
+            JArray jArray = JArray.Parse(content);
+            foreach(JToken jToken in jArray)
+            {
+                CountryDTO country = new CountryDTO();
+                country.Name = (string)jToken["name"];
+                country.Capital = (string)jToken["capital"];
+                country.Population = (int)jToken["population"];
+                country.Region = (string)jToken["region"];
+                country.Area = (double)jToken["area"];
+                country.Code = (string)jToken["numericCode"];
+                countries = countries.Append(country);
+            }
 
             return countries;
+
         }
+
     }
 }

@@ -26,6 +26,16 @@ namespace CountriesInfoTests
             Area = 17124442,
             Code = "643"
         };
+        CountryDTO _testThreeCountryDTO = new CountryDTO
+        {
+            Name = "Guatemala",
+            Capital = "Guatemala City",
+            Region = "Americas",
+            Population = 16176133,
+            Area = 108889,
+            Code = "320"
+        };
+
 
         [SetUp]
         public void Setup()
@@ -34,19 +44,28 @@ namespace CountriesInfoTests
         }
 
         [Test]
-        public void GetFromJSON()
+        public void GetFromJSONOneCountry()
         {
             var countries = _countryService.GetCountriesFromJSON
                 (File.ReadAllText(@"C:\Users\pan12\source\repos\CountriesInfo\CountriesInfoTests\CountriesJSON.txt"));
-            var country = countries.FirstOrDefault();
-            Assert.IsTrue
-                (_testCountryDTO.Area == country.Area &&
-                _testCountryDTO.Capital == country.Capital &&
-                _testCountryDTO.Code == country.Code &&
-                _testCountryDTO.Name == country.Name &&
-                _testCountryDTO.Population == country.Population &&
-                _testCountryDTO.Region == country.Region
-                );
+            Assert.IsTrue(countries.Count() == 1);
+            Assert.AreEqual(_testCountryDTO, countries.FirstOrDefault());
+        }
+
+        [Test]
+        public void GetFromJSONThreeCountry()
+        {
+            var countries = _countryService.GetCountriesFromJSON
+                (File.ReadAllText(@"C:\Users\pan12\source\repos\CountriesInfo\CountriesInfoTests\ThreeCountriesJSON.txt"));
+            Assert.IsTrue(countries.Count() == 3);
+            Assert.AreEqual(_testThreeCountryDTO, countries.FirstOrDefault());
+        }
+
+        [Test]
+        public void GetFromJSONEmpty()
+        {
+            var countries = _countryService.GetCountriesFromJSON("[]");
+            Assert.IsTrue(countries.Count()==0);
         }
     }
 }
