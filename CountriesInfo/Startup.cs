@@ -32,7 +32,7 @@ namespace CountriesInfo
         {
             services.AddDbContext<Context>(options => options.UseSqlServer(Configuration.GetConnectionString("CountriesDB")));
             services.AddTransient<ICountryService, CountryService>();
-            services.AddTransient<CountryAPIService>();
+            services.AddTransient<ICountryJSONService, CountryJSONService>();
 
             services.AddTransient<ICountryRepository, CountryRepository>();
             services.AddTransient<ICitiyRepository, CityRepository>();

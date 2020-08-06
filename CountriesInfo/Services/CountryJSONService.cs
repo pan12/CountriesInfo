@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using CountriesInfo.Interfaces;
+using Newtonsoft.Json.Linq;
 using Share.Models;
 using System;
 using System.Collections.Generic;
@@ -8,33 +9,8 @@ using System.Threading.Tasks;
 
 namespace CountriesInfo.Services
 {
-    public class CountryAPIService
+    public class CountryJSONService : ICountryJSONService
     {
-        private readonly IHttpClientFactory _httpClientFactory;
-
-        public CountryAPIService(IHttpClientFactory httpClientFactory)
-        {
-            _httpClientFactory = httpClientFactory;
-        }
-
-        public async Task<IEnumerable<CountryDTO>> GetCountriesFromAPIAsync(string name)
-        {
-            string uri = $"https://restcountries.eu/rest/v2/name/{name}";
-
-            try
-            {
-                using var client = _httpClientFactory.CreateClient();
-                var response = await client.GetAsync(uri);
-                var content = await response.Content.ReadAsStringAsync();
-                return GetCountriesFromJSON(content);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-
         public IEnumerable<CountryDTO> GetCountriesFromJSON(string content)
         {
             IEnumerable<CountryDTO> countries = new List<CountryDTO>();

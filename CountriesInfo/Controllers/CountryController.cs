@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using CountriesInfo.Interfaces;
 using CountriesInfo.Services;
@@ -11,17 +12,31 @@ namespace CountriesInfo.Controllers
 {
     public class CountryController : Controller
     {
-        readonly CountryAPIService _countryAPIService;
+
+        private readonly IHttpClientFactory _httpClientFactory;
+        readonly ICountryJSONService _countryJSONService;
         readonly ICountryService _countryService;
-        public CountryController(CountryAPIService countryAPIService, ICountryService countryService)
+        public CountryController(ICountryJSONService countryJSONService, ICountryService countryService, IHttpClientFactory httpClientFactory)
         {
-            _countryAPIService = countryAPIService;
+            _httpClientFactory = httpClientFactory;
+            _countryJSONService = countryJSONService;
             _countryService = countryService;
         }
 
         public async Task<IActionResult> Find(string name)
         {
-            ViewBag.Countries = await _countryAPIService.GetCountriesFromAPIAsync(name);
+            string uri = $"https://restcountries.eu/rest/v2/name/{name}";
+
+            try
+            {
+                using var client = _httpClientFactory.CreateClient();
+                var response = await client.GetAsync(uri);
+                var content = await response.Content.ReadAsStringAsync();
+                ViewBag.Countries = _countryJSONService.GetCountriesFromJSON(content);
+            }
+            catch (Exception)
+            {
+            }
             return View();
         }
 

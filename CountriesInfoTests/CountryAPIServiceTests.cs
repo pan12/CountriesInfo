@@ -14,8 +14,7 @@ namespace CountriesInfoTests
 {
     class CountryAPIServiceTests
     {
-        private CountryAPIService _countryService;
-        public IHttpClientFactory _httpClientFactory;
+        private CountryJSONService _countryService;
 
         CountryDTO _testCountryDTO = new CountryDTO
         {
@@ -40,7 +39,7 @@ namespace CountriesInfoTests
         [SetUp]
         public void Setup()
         {
-            _countryService = new CountryAPIService(_httpClientFactory);
+            _countryService = new CountryJSONService();
         }
 
         [Test]
